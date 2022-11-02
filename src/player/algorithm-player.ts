@@ -182,6 +182,26 @@ export class AlgorithmPlayer extends BasePlayer {
         }
     }
 
+    private checkIfStateIsGoal(state: string): boolean {
+        if (state.charAt(4) === '1' &&
+            state.charAt(0) === '1' &&
+            state.charAt(8) === '1') return true;
+
+        if (state.charAt(4) === '1' &&
+            state.charAt(1) === '1' &&
+            state.charAt(7) === '1') return true;
+
+        if (state.charAt(4) === '1' &&
+            state.charAt(2) === '1' &&
+            state.charAt(6) === '1') return true;
+
+        if (state.charAt(4) === '1' &&
+            state.charAt(3) === '1' &&
+            state.charAt(5) === '1') return true;
+
+        return false;
+    }
+
     /**
      * Initializing every Move-State-Action
      */
@@ -193,7 +213,8 @@ export class AlgorithmPlayer extends BasePlayer {
             if (!this.q.has(state)) this.q.set(state, new Map());
 
             for (const action of actions) {
-                this.q.get(state)?.set(action, 0);
+                if (this.checkIfStateIsGoal(state)) this.q.get(state)?.set(action, 1);
+                else this.q.get(state)?.set(action, 0);
             }
         }
     }
@@ -216,13 +237,8 @@ export class AlgorithmPlayer extends BasePlayer {
         return convertedField;
     }
 
-    choosePlaceAction(field: FieldType[][]): { col: number; row: number; } {
-        // Implementation of how to choose a place action
-        let state = this.convertField(field);
-
-        // choose Action 
-
-        let action = null;
+    private chooseAction(state: string): any {
+        let action: number | null = null;
         if (Math.random() <= this.eps) { // Select random action
             const randomIndex = Math.floor(Math.random() * this.q.get(state)!.size);
             action = Array.from(this.q.get(state)!.keys())[randomIndex];
@@ -238,11 +254,48 @@ export class AlgorithmPlayer extends BasePlayer {
                 }
             }
         }
-        
-        return { row: Math.floor(action / 3), col: action % 3 };
+
+        if (action == null) throw new Error();
+
+        return action;
     }
-    chooseMoveAction(field: FieldType[][]): { action: number; stone: IStone; } {
+
+    private updateQ(state: string, action: number | { action: number, row: number, col: number }, field: FieldType[][]) {
+        let nextState = this.convertField(field);
+        let nextAction = this.chooseAction(nextState);
+        let nextQValue = this.q.get(nextState)!.get(nextAction) as number;
+
+        let oldQ_Value = this.q.get(state)!.get(action) as number;
+
+        let newQ_Value = oldQ_Value + this.alpha * (this.r + this.gamma * nextQValue - oldQ_Value);
+
+        this.q.get(state)?.set(action, newQ_Value);
+    }
+
+    choosePlaceAction(field: FieldType[][]): { col: number; row: number; callback: Function | null } {
+        // Implementation of how to choose a place action
+        let state = this.convertField(field);
+
+        // choose Action 
+        let action: number = this.chooseAction(state);
+
+        return {
+            row: Math.floor(action / 3),
+            col: action % 3,
+            callback: () => this.updateQ(state, action as number, field)
+        };
+    }
+    chooseMoveAction(field: FieldType[][]): { action: number; stone: IStone; callback: Function | null } {
         // Implementation of how to choose a move action
-        throw new Error("Method not implemented.");
+        let state = this.convertField(field);
+
+        // choose Action
+        let action: { action: number, row: number, col: number } = this.chooseAction(state);
+
+        return {
+            action: action.action,
+            stone: field[action.row][action.col] as IStone,
+            callback: () => this.updateQ(state, action, field)
+        }
     }
 }

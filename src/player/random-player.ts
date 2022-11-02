@@ -12,11 +12,12 @@ export class RandomPlayer extends BasePlayer {
     choosePlaceAction(field: FieldType[][]) {
         return {
             row: Math.round(Math.random() * (field.length - 1)),
-            col: Math.round(Math.random() * (field.length - 1))
+            col: Math.round(Math.random() * (field.length - 1)),
+            callback: null
         }
     }
 
-    chooseMoveAction(field: FieldType[][]): { action: number, stone: IStone } {
+    chooseMoveAction(field: FieldType[][]) {
         const stones = [];
 
         for (const row of field) {
@@ -28,6 +29,6 @@ export class RandomPlayer extends BasePlayer {
         const randomAction: Action = Math.round(Math.random() * (Object.keys(Action).length - 1));
         const randomStone = Math.round(Math.random() * (stones.length - 1));
 
-        return { action: randomAction, stone: stones[randomStone] };
+        return { action: randomAction, stone: stones[randomStone], callback: null };
     }
 }

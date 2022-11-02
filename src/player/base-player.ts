@@ -22,11 +22,11 @@ export abstract class BasePlayer {
         if (this.#stones > 0) this.#stones--;
     }
 
-    resetStones(): void	{
+    resetStones(): void {
         this.#stones = 3;
     }
 
-    abstract choosePlaceAction(field: FieldType[][]): { col: number, row: number };
+    abstract choosePlaceAction(field: FieldType[][]): { col: number, row: number, callback: Function | null };
 
-    abstract chooseMoveAction(field: FieldType[][]): { action: number, stone: IStone };
+    abstract chooseMoveAction(field: FieldType[][]): { action: number, stone: IStone, callback: Function | null };
 }

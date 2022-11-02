@@ -3,7 +3,7 @@ import { FieldType } from "./model/FieldType";
 import { AlgorithmPlayer } from "./player/algorithm-player";
 import { RandomPlayer } from "./player/random-player";
 
-const EPISODES = 1000;
+const EPISODES = 1000000;
 
 function printField(field: FieldType[][]) {
     const print = [['', '', ''], ['', '', ''], ['', '', '']];
@@ -18,7 +18,8 @@ function printField(field: FieldType[][]) {
 }
 
 function printScore(g: Game) {
-    console.log(`Score ${g.FirstPlayer.GameSore}:${g.SecondPlayer.GameSore}`);
+    console.table({ TotalGames: EPISODES, [g.FirstPlayer.Name]: g.FirstPlayer.GameSore, [g.SecondPlayer.Name]: g.SecondPlayer.GameSore });
+    console.table({ TotalGames: EPISODES, [g.FirstPlayer.Name]: (g.FirstPlayer.GameSore / EPISODES * 100).toFixed(2) + ' %', [g.SecondPlayer.Name]: (g.SecondPlayer.GameSore / EPISODES * 100).toFixed(2) + ' %' });
 }
 
 function printResult(g: Game) {
@@ -28,16 +29,16 @@ function printResult(g: Game) {
 }
 
 function main() {
-    const g = new Game(new AlgorithmPlayer("SARSA"), new RandomPlayer("2"));
+    const sarsa = new AlgorithmPlayer("SARSA");
+    const g = new Game(sarsa, new RandomPlayer("2"));
 
     for (let i = 0; i < EPISODES; i++) {
         while (g.GameIsStillRunning) {
-            printField(g.GameField);
+            // printField(g.GameField);
             g.takeTurn();
         }
 
-        // printResult(g);
-
+        // printResult(g)       
         g.resetGame();
     }
 

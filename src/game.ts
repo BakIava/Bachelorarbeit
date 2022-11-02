@@ -166,9 +166,11 @@ export class Game {
             if (this.state === GameState.PLACE_PHASE) {
                 const action = this.turn.choosePlaceAction(this.field);
                 turnCompleted = this.placeStone({ row: action.row, col: action.col }, { player: this.turn });
+                if (action.callback) action.callback();
             } else if (this.state === GameState.MOVE_PHASE) {
-                const { action, stone } = this.turn.chooseMoveAction(this.field);
-                turnCompleted = this.moveStone(action, stone)
+                const { action, stone, callback } = this.turn.chooseMoveAction(this.field);
+                turnCompleted = this.moveStone(action, stone);
+                if (callback) callback();
             }
 
             // Logs every successfull move
