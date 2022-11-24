@@ -1,0 +1,140 @@
+#versus-container {
+    // padding: 50px;
+    padding: 0 10px;
+
+    .button-container {
+
+        .turn-info {
+            width: max-content;
+            position: absolute;
+            left: 50%;
+            right: 50%;
+            transform: translate(-50%, 0);
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+
+    .circle {
+        position: relative;
+        width: 25vw;
+        min-width: 500px;
+        aspect-ratio: 1 / 1;
+        border: 1pt solid black;
+        border-radius: 100%;
+        margin-left: auto;
+        margin-right: auto;
+
+        .field {
+            width: 50px;
+            aspect-ratio: 1 / 1;
+            border: 1pt solid black;
+            background-color: white;
+            border-radius: 100%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+
+        .top {
+            top: 0;
+            left: 50%;
+        }
+
+        .top-left {
+            top: 15%;
+            left: 15%;
+        }
+
+        .top-right {
+            top: 15%;
+            left: calc(100% - 15%);
+        }
+
+        .middle-right {
+            top: 50%;
+            left: 100%;
+        }
+
+        .middle {
+            top: 50%;
+            left: 50%;
+        }
+
+        .middle-left {
+            top: 50%;
+            left: 0;
+        }
+
+        .bottom-right {
+            top: 85%;
+            left: calc(100% - 15%);
+        }
+
+        .bottom {
+            top: 100%;
+            left: 50%;
+        }
+
+        .bottom-left {
+            top: 85%;
+            left: 15%;
+        }
+
+        .line-vertical {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            height: 100%;
+            border-left: 1pt solid black;
+        }
+
+        .line-horizontal {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            width: 100%;
+            border-top: 1pt solid black;
+        }
+
+        .line-crossed {
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 70%;
+            height: 70%;
+            background:
+                linear-gradient(to top left,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(0, 0, 0, 0) calc(50% - 0.8px),
+                    rgba(0, 0, 0, 1) 50%,
+                    rgba(0, 0, 0, 0) calc(50% + 0.8px),
+                    rgba(0, 0, 0, 0) 100%),
+                linear-gradient(to top right,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(0, 0, 0, 0) calc(50% - 0.8px),
+                    rgba(0, 0, 0, 1) 50%,
+                    rgba(0, 0, 0, 0) calc(50% + 0.8px),
+                    rgba(0, 0, 0, 0) 100%);
+        }
+    }
+
+    .circle {
+        .field.player-1 {
+            background-color: red !important;
+        }
+
+        .field.player-2 {
+            background-color: blue !important;
+        }
+    }
+
+    .circle.edit {
+        .field:hover {
+            box-shadow: 0px 0px 20px 0px #606060;
+        }
+    }
+}
+
+::ng-deep .mat-menu-panel.hide {
+    visibility: hidden;
+}

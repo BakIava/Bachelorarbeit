@@ -1,0 +1,36 @@
+<div class="tooltip" [style.left]="left + 'px'" [style.top]="top + 'px'">
+  <div class="move-results" *ngIf="isMove; else place">
+    <table>
+      <tr>
+        <td>Moves</td>
+        <td>{{movedCount}}</td>
+      </tr>
+      <tr>
+        <td>Moves (%)</td>
+        <td>{{relativeMoves | number: '1.0-2'}} %</td>
+      </tr>
+    </table>
+    <div class="chart-container">
+      <canvas id="MoveChart{{tooltip.field}}">{{ movesChart }}</canvas>
+    </div>
+  </div>
+  <ng-template #place>
+    <table>
+      <tr>
+        <td>action value</td>
+        <td>{{value}}</td>
+      </tr>
+      <tr>
+        <td>Places</td>
+        <td>{{count}}</td>
+      </tr>
+      <tr>
+        <td>Places (%)</td>
+        <td>{{relativeCount | number: '1.0-2'}} %</td>
+      </tr>
+    </table>
+    <div class="chart-container">
+      <canvas id="CountChart{{tooltip.field}}">{{ countChart }}</canvas>
+    </div>
+  </ng-template>
+</div>

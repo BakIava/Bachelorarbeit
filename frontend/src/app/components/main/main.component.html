@@ -1,0 +1,92 @@
+<div id="main-component">
+    <div class="loading" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-toolbar class="header">
+        <span>Anwendung eines RL-Algorithmus auf Mola Rotunda - ein 2000 Jahres altes Spiel römischer Legionäre</span>
+    </mat-toolbar>
+    <div class="content">
+        <div class="stepper-title">
+            <span>Gameconfiguration</span>
+        </div>
+        <mat-stepper linear class="stepper" #stepper>
+            <mat-step [stepControl]="firstPlayerGroup">
+                <form [formGroup]="firstPlayerGroup">
+                    <ng-template matStepLabel>{{ firstPlayer['Name'].value ? firstPlayer['Name'].value : 'Spieler 1'}}
+                    </ng-template>
+                    <div class="base-config">
+                        <div class="field">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Choose player</mat-label>
+                                <mat-select formControlName="Player">
+                                    <mat-option *ngFor="let player of playerTypes" [value]="player.id">
+                                        {{ player.display }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="field">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Name</mat-label>
+                                <input matInput type="text" formControlName="Name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div *ngIf="firstPlayer['Player'].value === 0">
+                        <app-sarsa-configuration [form]="firstPlayerConfigurationGroup"></app-sarsa-configuration>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondPlayerGroup">
+                <ng-template matStepLabel>{{ secondPlayer['Name'].value ? secondPlayer['Name'].value : 'Spieler 2'}}
+                </ng-template>
+                <form [formGroup]="secondPlayerGroup">
+                    <div class="base-config">
+                        <div class="field">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Choose player</mat-label>
+                                <mat-select formControlName="Player">
+                                    <mat-option *ngFor="let player of playerTypes" [value]="player.id">
+                                        {{ player.display }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="field">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Name</mat-label>
+                                <input matInput type="text" formControlName="Name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div *ngIf="secondPlayer['Player'].value === 0">
+                        <app-sarsa-configuration [form]="secondPlayerConfigurationGroup"></app-sarsa-configuration>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="additionalOptionGroup">
+                <ng-template matStepLabel>Additional options</ng-template>
+                <form [formGroup]="additionalOptionGroup">
+                    <mat-form-field class="field" appearance="fill">
+                        <mat-label>Episodes</mat-label>
+                        <input matInput type="number" min="1" formControlName="Episodes">
+                    </mat-form-field>
+                </form>
+            </mat-step>
+        </mat-stepper>
+        <div class="start-container">
+            <button mat-raised-button class="start-button" color="primary" (click)="start()"
+                [disabled]="!firstPlayerGroup.valid || !secondPlayerGroup.valid || !additionalOptionGroup.valid">
+                Start</button>
+        </div>
+    </div>
+    <div class="result">
+        <app-result *ngIf="started" [firstPlayer]="firstPlayer" [secondPlayer]="secondPlayer" [score]="score">
+        </app-result>
+    </div>
+    <app-mola-rotunda *ngIf="started" [q]="q" [move]="score.history.move"></app-mola-rotunda>
+    <div class="versus">
+        <button mat-flat-button color="primary" class="versus-button" *ngIf="started" (click)="versus()">Play against Algorithm</button>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+#main-component {
+    height: 100%;
+
+    .loading {
+        position: absolute; 
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header {
+        justify-content: center;
+        font-size: 26px;
+        font-weight: bold;
+        background-color: #9FB7B9;
+    }
+
+    .content {
+        margin: 10px;
+
+        .stepper-title {
+            margin: 10px 0;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 500;
+            letter-spacing: 0.25px;
+            padding: 10px;
+
+            span {
+                border-radius: 10px;
+                padding: 7.5px;
+                background-color: white;
+                box-shadow: 0px 0px 4px 0px #727272;
+            }
+        }
+
+        .stepper {
+            border: 1pt;
+            border-radius: 20px;
+            box-shadow: 0px 0px 4px 0px #727272;
+
+            .base-config {
+                display: flex;
+                flex-direction: row;
+
+                .field {
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        .start-container {
+            margin: 10px 0;
+            text-align: center;
+
+            .start-button {
+                font-size: 18px;
+                font-weight: 400;
+                letter-spacing: 0.75px;
+            }
+        }
+    }
+
+    .versus {
+        display: flex;
+        justify-content: center;
+        margin: 10px;
+        .versus-button {
+            padding: 15px;
+            font-size: 20px;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+<div id="result-container">
+    <mat-card>
+        <mat-card-title>Result</mat-card-title>
+        <mat-card-content class="result-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ firstPlayer['Name'].value }}</td>
+                        <td>{{ score.player1 }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ secondPlayer['Name'].value }}</td>
+                        <td>{{ score.player2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="chart-container">
+                <canvas id="Winrate">{{ chart }}</canvas>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

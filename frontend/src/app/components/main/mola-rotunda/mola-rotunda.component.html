@@ -1,0 +1,68 @@
+<div id="mola-rotunda-container">
+    <mat-card>
+        <mat-card-title class="card-title">
+            <div *ngIf="editMode; else viewMode">
+                <div class="title-text">
+                    Please select a state, by clicking on a field and placing a stone. 
+                    Confirm with the button.
+                </div>
+                <table class="stone-table">
+                    <tr>
+                        <td>Remaining stones (Player 1):</td>
+                        <td>{{ stones.p1 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining stones (Player 2):</td>
+                        <td>{{ stones.p2 }}</td>
+                    </tr>
+                </table>
+                <div class="button-container">
+                    <button mat-flat-button color="primary" class="confirm-button" (click)="applyInformations()">
+                        Display values for this state
+                    </button>
+                </div>
+            </div>
+            <ng-template #viewMode>
+                <div class="title-text">
+                    You can see the action values for the selected state, by hovering over the field cells.
+                </div>
+                <div class="button-container">
+                    <button mat-flat-button color="accent" class="confirm-button" (click)="selectState()">
+                        Select different state
+                    </button>
+                </div>
+            </ng-template>
+        </mat-card-title>
+        <mat-card-content class="card-content">
+            <div class="circle" [ngClass]="{edit: editMode}">
+                <div class="line-vertical"></div>
+                <div class="line-horizontal"></div>
+                <div class="line-crossed"></div>
+
+                <div class="field {{field.className}}" *ngFor="let field of fields" [ngClass]="{
+                    'player-1': field.player === '1',
+                    'player-2': field.player === '2'
+                }" [ngStyle]="{'box-shadow': '0px 0px 10px 5px ' + (field.heat ?? 'none')}" [matMenuTriggerFor]="menu"
+                    [tooltip]="{ state: getState(), field: field.id, q, move, editMode}"
+                    (click)="editMode ? '' : menuTrigger.closeMenu()" #menuTrigger="matMenuTrigger">
+                    <mat-menu [class]="editMode ? '' : 'hide'" #menu="matMenu">
+                        <button mat-menu-item (click)="placeStone(field.id, '1')"
+                            [disabled]="stones.p1 <= 0 || field.player === '1'">
+                            <mat-icon style="color: red">face</mat-icon>
+                            <span>Player 1</span>
+                        </button>
+                        <button mat-menu-item (click)="placeStone(field.id, '2')"
+                            [disabled]="stones.p2 <= 0 || field.player === '2'">
+                            <mat-icon style="color: blue">face</mat-icon>
+                            <span>Player 2</span>
+                        </button>
+                        <button mat-menu-item (click)="placeStone(field.id, '0')" *ngIf="field.player !== '0'">
+                            <mat-icon>delete</mat-icon>
+                            <span>Remove</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

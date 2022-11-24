@@ -1,0 +1,29 @@
+<mat-divider></mat-divider>
+<div id="sarsa-configuration-container">
+    <span class="title">Algorithmus Parameter</span>
+    <form class="algorithm-form" [formGroup]="form">
+        <div class="row">
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Epsilon (ϵ)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Epsilon">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Alpha (α)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Alpha">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Gamma (ɤ)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Gamma">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Reward (R)</mat-label>
+                <input matInput type="number" formControlName="Reward">
+            </mat-form-field>
+        </div>
+        <div>
+            <section>
+                <mat-checkbox color="primary" formControlName="Random">Q-Value mit zufälligen Werte initialiseren</mat-checkbox>
+            </section>
+        </div>
+    </form>
+</div>
