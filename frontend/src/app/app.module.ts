@@ -29,6 +29,8 @@ import { VersusComponent } from './components/main/versus/versus.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { WinnerComponent } from './components/main/versus/winner/winner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSliderModule } from '@angular/material/slider';
+
 
 
 @NgModule({
@@ -63,7 +65,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

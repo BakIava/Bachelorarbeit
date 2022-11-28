@@ -1,3 +1,4 @@
+import { IField, IPosition } from "../game";
 import { FieldType } from "../model/FieldType";
 import { IStone } from "../model/IStone";
 
@@ -5,15 +6,18 @@ export abstract class BasePlayer {
     #score: number;
     #id: string;
     #stones: number;
+    shellCount: number;
 
     get Name() { return this.#id; }
     get GameSore() { return this.#score; }
     get StonesLeft() { return this.#stones; }
 
-    constructor(id: string) {
+    constructor(id: string, shellCount: number) {
+        if(shellCount > 3) throw new Error('ShellCount cannot be bigger 3');
         this.#id = id;
         this.#score = 0;
-        this.#stones = 3;
+        this.shellCount = shellCount;
+        this.#stones = shellCount * 2 + 1;
     }
 
     won(): void { this.#score++; }
@@ -22,11 +26,11 @@ export abstract class BasePlayer {
         if (this.#stones > 0) this.#stones--;
     }
 
-    resetStones(): void {
-        this.#stones = 3;
+    resetStones(stones: number): void {
+        this.#stones = stones;
     }
 
-    abstract choosePlaceAction(field: FieldType[][]): { col: number, row: number, callback: Function | null };
+    abstract choosePlaceAction(field: IField): { pos: IPosition, callback: Function | null };
 
-    abstract chooseMoveAction(field: FieldType[][]): { action: number, stone: IStone, callback: Function | null };
+    abstract chooseMoveAction(field: IField): { pos: IPosition, action: number, callback: Function | null };
 }

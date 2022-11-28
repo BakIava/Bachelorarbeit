@@ -68,9 +68,13 @@
             <mat-step [stepControl]="additionalOptionGroup">
                 <ng-template matStepLabel>Additional options</ng-template>
                 <form [formGroup]="additionalOptionGroup">
-                    <mat-form-field class="field" appearance="fill">
+                    <mat-form-field class="field" appearance="outline">
                         <mat-label>Episodes</mat-label>
                         <input matInput type="number" min="1" formControlName="Episodes">
+                    </mat-form-field>
+                    <mat-form-field class="field shell" appearance="outline">
+                        <mat-label>Shell count</mat-label>
+                        <input matInput type="number" min="1" max="2" formControlName="Shells">
                     </mat-form-field>
                 </form>
             </mat-step>
@@ -87,6 +91,7 @@
     </div>
     <app-mola-rotunda *ngIf="started" [q]="q" [move]="score.history.move"></app-mola-rotunda>
     <div class="versus">
-        <button mat-flat-button color="primary" class="versus-button" *ngIf="started" (click)="versus()">Play against Algorithm</button>
+        <button mat-flat-button color="primary" class="versus-button" *ngIf="started" (click)="versus()">Play against
+            Algorithm</button>
     </div>
 </div>

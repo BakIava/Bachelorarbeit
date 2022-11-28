@@ -36,7 +36,8 @@ export class MainComponent implements OnInit {
   });
 
   additionalOptionGroup: FormGroup = new FormGroup({
-    "Episodes": new FormControl('', Validators.required)
+    "Episodes": new FormControl('', Validators.required),
+    "Shells": new FormControl(1, Validators.required)
   })
 
   playerTypes = [
@@ -58,15 +59,18 @@ export class MainComponent implements OnInit {
     this.started = false;
     const config = {
       p1: {
+        name: this.firstPlayer['Name'].value,
         player: this.firstPlayer['Player'].value,
         configuration: this.firstPlayer['Configuration'].value
       },
       p2: {
+        name: this.secondPlayer['Name'].value,
         player: this.secondPlayer['Player'].value,
         configuration: this.secondPlayer['Configuration'].value
       },
       options: {
-        episodes: this.additionalOption['Episodes'].value
+        episodes: this.additionalOption['Episodes'].value,
+        shells: this.additionalOption['Shells'].value
       }
     }
 
