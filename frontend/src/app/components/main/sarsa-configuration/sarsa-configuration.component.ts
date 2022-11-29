@@ -17,6 +17,7 @@ export class SarsaConfigurationComponent implements OnInit, OnDestroy {
     this.form.removeControl('Gamma');
     this.form.removeControl('Reward');
     this.form.removeControl('Random');
+    this.form.removeControl('GoalReward');
   }
 
   ngOnInit(): void {
@@ -25,5 +26,6 @@ export class SarsaConfigurationComponent implements OnInit, OnDestroy {
     this.form.addControl('Gamma', new FormControl(0.99, Validators.required));
     this.form.addControl('Reward', new FormControl(-0.01, Validators.required));
     this.form.addControl('Random', new FormControl(false, Validators.required));
+    this.form.addControl('GoalReward', new FormControl(1, Validators.required));
   }
 }

@@ -26,6 +26,10 @@ export abstract class BasePlayer {
         this.#stones = 3;
     }
 
+    resetScore(): void {
+        this.#score = 0;
+    }
+
     abstract choosePlaceAction(field: FieldType[][]): { col: number, row: number, callback: Function | null };
 
     abstract chooseMoveAction(field: FieldType[][]): { action: number, stone: IStone, callback: Function | null };

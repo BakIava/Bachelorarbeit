@@ -2,7 +2,8 @@
     <mat-card>
         <mat-card-title>Result</mat-card-title>
         <mat-card-content class="result-content">
-            <table>
+            <app-win-stat [statistic]="statistic" [firstPlayerName]="firstPlayerName" [secondPlayerName]="secondPlayerName"></app-win-stat>
+            <!-- <table>
                 <thead>
                     <tr>
                         <th colspan="2">Score</th>
@@ -11,16 +12,19 @@
                 <tbody>
                     <tr>
                         <td>{{ firstPlayer['Name'].value }}</td>
-                        <td>{{ score.player1 }}</td>
+                        <td>{{ statistic.score.p1.move + statistic.score.p1.place  }}</td>
                     </tr>
                     <tr>
                         <td>{{ secondPlayer['Name'].value }}</td>
-                        <td>{{ score.player2 }}</td>
+                        <td>{{ statistic.score.p2.move + statistic.score.p2.place }}</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
             <div class="chart-container">
-                <canvas id="Winrate">{{ chart }}</canvas>
+                <canvas id="WinrateChart">{{ WinrateChart }}</canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="TurnsChart">{{ TurnsChart }}</canvas>
             </div>
         </mat-card-content>
     </mat-card>

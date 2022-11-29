@@ -12,10 +12,11 @@ export class ToolTipDirectiveComponent implements OnInit {
   clicked = false;
 
   private checkIfPossibleToShowInformation(): boolean {
-    const state = this.tooltip.q.find((v: { state: any; }) => v.state === this.tooltip.state);
+    const state = this.tooltip.q?.find((v: { state: any; }) => v.state === this.tooltip.state);
     if (this.tooltip.state.match(/1|2/g)?.length === 6) {
-      // debugger;
-      if (this.tooltip.state.charAt(this.tooltip.field) !== '1' || !state.actionValue.find((a: { action: { row: number; col: number; }; }) => a.action.row * 3 + a.action.col === this.tooltip.field)) return false;
+      if (this.tooltip.state.charAt(this.tooltip.field) !== this.tooltip.player
+        || !state.actionValue.find((a: { action: { row: number; col: number; }; }) =>
+          a.action.row * 3 + a.action.col === this.tooltip.field)) return false;
     } else if (this.tooltip.state.charAt(this.tooltip.field) !== '0') return false;
 
 

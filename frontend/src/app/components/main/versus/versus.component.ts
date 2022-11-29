@@ -1,5 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 import { Action } from './model/Action';
 import { Game } from './model/Game';
 import { GameState } from './model/GameState';
@@ -38,10 +39,11 @@ export class VersusComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private sb: SnackbarService) { }
 
   ngOnInit(): void {
-    this.game = new Game(this.data, this.startPlayer);
+    this.game = new Game(this.data.q, this.startPlayer, this.data.allowPlaceMiddle);
   }
 
   moveForField(id: number) {
@@ -85,18 +87,18 @@ export class VersusComponent implements OnInit {
   }
 
   async startGame() {
-    this.game = new Game(this.data, this.startPlayer);
+    this.game = new Game(this.data.q, this.startPlayer, this.data.allowPlaceMiddle);
     while (this.game.GameIsStillRunning) {
-      if (this.game.turn === '1') {
+      if (this.game.turn === this.data.player) {
         // Algorithm takes turn
         if (this.game.state === GameState.PLACE_PHASE) {
           const action = this.game.algoritm.choosePlaceAction(this.convertField());
-          this.game.placeStone(action, '1');
+          this.game.placeStone(action, this.data.player);
         }
 
         if (this.game.state === GameState.MOVE_PHASE) {
           const action = this.game.algoritm.chooseMoveAction(this.convertField());
-          this.game.moveStone(action.action, (action.row * 3 + action.col), '1');
+          this.game.moveStone(action.action, (action.row * 3 + action.col), this.data.player);
 
           this.checkForMoves();
         }
@@ -106,18 +108,20 @@ export class VersusComponent implements OnInit {
         while (!this.userSelected) { await load(); }
 
         if (this.game.state === GameState.PLACE_PHASE) {
-          this.game.placeStone(this.userAction as number, '2');
+          const result = this.game.placeStone(this.userAction as number, this.data.player === '1' ? '2' : '1');
           this.userSelected = false;
+
+          if (!result) this.sb.open('Illegal move', SnackbarService.Level.ERROR);
         }
 
         if (this.game.state === GameState.MOVE_PHASE) {
-          this.game.moveStone(this.userAction as number, this.userPos as number, '2');
+          this.game.moveStone(this.userAction as number, this.userPos as number, this.data.player === '1' ? '2' : '1');
           this.userSelected = false;
         }
       }
     }
 
-    if (this.game.winner === '1') {
+    if (this.game.winner === this.data.player) {
       this.dialog.open(WinnerComponent, {
         data: 'Algorithm won!'
       });

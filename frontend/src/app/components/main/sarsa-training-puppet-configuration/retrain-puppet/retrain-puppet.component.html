@@ -1,0 +1,62 @@
+<div id="retrain-puppet-container">
+    <span class="title">Algorithmus Parameter</span>
+    <form class="algorithm-form" [formGroup]="form">
+        <div class="field">
+            <mat-form-field appearance="outline" class="puppet-select">
+                <mat-label>Choose player</mat-label>
+                <mat-select formControlName="Puppet">
+                    <mat-option *ngFor="let puppet of puppetTypes" [value]="puppet.id">
+                        {{ puppet.display }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Epsilon (ϵ)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Epsilon">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Alpha (α)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Alpha">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Gamma (ɤ)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Gamma">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Reward (R)</mat-label>
+                <input matInput type="number" formControlName="Reward">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>GoalReward</mat-label>
+                <input matInput type="number" formControlName="GoalReward">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Episodes</mat-label>
+                <input matInput type="number" min="1" formControlName="Episodes">
+            </mat-form-field>
+        </div>
+        <div>
+            <section>
+                <mat-checkbox color="primary" formControlName="Random">Q-Value mit zufälligen Werte initialiseren
+                </mat-checkbox>
+            </section>
+            <section>
+                <mat-checkbox color="primary" formControlName="AllowPlaceMiddle">
+                    Allow placing stone in middle
+                </mat-checkbox>
+            </section>
+        </div>
+    </form>
+    <div matDialogActions>
+        <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+        <button mat-flat-button color="primary" (click)="retrain()" class="retrain-button" [disabled]="!form.valid">
+            <div class="content">
+                <span>Retrain</span>
+                <mat-spinner class="retrain" *ngIf="loading" strokeWidth="1" diameter="25">                
+                </mat-spinner>
+            </div>
+        </button>
+    </div>
+</div>

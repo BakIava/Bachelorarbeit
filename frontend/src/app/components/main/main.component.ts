@@ -6,6 +6,9 @@ import { ResultComponent } from 'src/app/components/main/result/result.component
 import { MatDialog } from '@angular/material/dialog';
 import { VersusComponent } from './versus/versus.component';
 import { firstValueFrom } from 'rxjs';
+import { IStatistic } from 'src/app/model/IStatistic';
+import { SelectVersusComponent } from './versus/select-versus/select-versus.component';
+import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-main',
@@ -16,7 +19,11 @@ export class MainComponent implements OnInit {
   loading: boolean = false;
   started: boolean = false;
   score: IScore = { player1: 0, player2: 0, history: { score: [], move: [] } };
-  q: any;
+  statistic!: IStatistic;
+  q!: {
+    p1: any,
+    p2: any
+  };
 
   @ViewChild(ResultComponent) result!: ResultComponent;
 
@@ -36,12 +43,16 @@ export class MainComponent implements OnInit {
   });
 
   additionalOptionGroup: FormGroup = new FormGroup({
-    "Episodes": new FormControl('', Validators.required)
+    "Episodes": new FormControl('', Validators.required),
+    "AllowPlaceMiddle": new FormControl(false, Validators.required)
   })
 
   playerTypes = [
     { id: 0, display: 'SARSA Algorithm' },
-    { id: 1, display: 'Random moves' },
+    { id: 1, display: 'SARSA Training Puppet - Easy' },
+    { id: 2, display: 'SARSA Training Puppet - Medium' },
+    { id: 3, display: 'SARSA Training Puppet - Hard' },
+    { id: 4, display: 'Random moves' },
   ]
 
   get firstPlayer() { return this.firstPlayerGroup.controls; }
@@ -50,7 +61,8 @@ export class MainComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sb: SnackbarService
   ) { }
 
   async start() {
@@ -58,31 +70,48 @@ export class MainComponent implements OnInit {
     this.started = false;
     const config = {
       p1: {
+        name: this.firstPlayer['Name'].value,
         player: this.firstPlayer['Player'].value,
         configuration: this.firstPlayer['Configuration'].value
       },
       p2: {
+        name: this.secondPlayer['Name'].value,
         player: this.secondPlayer['Player'].value,
         configuration: this.secondPlayer['Configuration'].value
       },
       options: {
-        episodes: this.additionalOption['Episodes'].value
+        episodes: this.additionalOption['Episodes'].value,
+        allowPlaceMiddle: this.additionalOption['AllowPlaceMiddle'].value,
       }
     }
 
-    const result = await this.api.start(config).catch((e) => { this.loading = false; throw e; });
+    const result = await this.api.start(config).catch((e) => {
+      this.loading = false;
+      this.sb.open('Fatal Error', SnackbarService.Level.ERROR);
+      throw e;
+    });
+
     this.started = true;
-    this.score.player1 = result.score.p1;
-    this.score.player2 = result.score.p2;
-    this.score.history = result.history;
+    this.statistic = result.statistic;
     this.q = result.q;
     this.loading = false;
   }
 
   async versus() {
+    const selectedQ = await firstValueFrom(this.dialog.open(SelectVersusComponent, {
+      disableClose: true,
+      data: {
+        q: this.q,
+        firstPlayerName: this.firstPlayer['Name'].value,
+        secondPlayerName: this.secondPlayer['Name'].value
+      }
+    }).afterClosed());
+
+    if (!selectedQ) return;
+
     const ref = this.dialog.open(VersusComponent, {
       disableClose: true,
-      data: this.q
+      data: { q: selectedQ, allowPlaceMiddle: this.additionalOption['AllowPlaceMiddle'].value, player: selectedQ === this.q.p1 ? '1' : '2' }
     });
 
     await firstValueFrom(ref.afterClosed());
@@ -92,9 +121,7 @@ export class MainComponent implements OnInit {
     // this.loading = true;
     // this.api.getExample().then((ex) => {
     //   this.started = true;
-    //   this.score.player1 = ex.score.p1;
-    //   this.score.player2 = ex.score.p2;
-    //   this.score.history = ex.history;
+    //   this.statistic = ex.statistic;
     //   this.q = ex.q;
     //   this.loading = false;
     // });

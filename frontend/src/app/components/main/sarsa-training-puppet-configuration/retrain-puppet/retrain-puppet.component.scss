@@ -1,0 +1,40 @@
+#retrain-puppet-container {
+    margin: 10px;
+
+    .title {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .algorithm-form {
+        margin: 10px;
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .field {
+            margin: 0 5px;
+            width: 85px;
+        }
+
+        .puppet-select {
+            width: 250px;
+        }
+    }
+
+    .retrain-button .content {
+        span {
+            margin: 0 5px;
+        }
+
+        display: flex;
+        align-items: center;
+
+        ::ng-deep .mat-progress-spinner circle,
+        .mat-spinner circle {
+            stroke: #ffffff;
+        }
+    }
+}

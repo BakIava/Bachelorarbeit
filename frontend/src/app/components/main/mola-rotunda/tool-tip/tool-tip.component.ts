@@ -99,7 +99,6 @@ export class ToolTipComponent implements AfterViewInit {
 
   displayCharts() {
     if (this.isMove) {
-      console.log(this.moveData);
       setTimeout(() => {
         this.movesChart = new Chart('MoveChart' + this.tooltip.field, {
           type: 'polarArea', //this denotes tha type of chart

@@ -1,0 +1,185 @@
+<div id="win-stat-container">
+    <table class="table">
+        <tr class="row">
+            <td class="first"></td>
+            <td class="second name" colspan="3">
+                {{ firstPlayerName }}
+            </td>
+            <td class="third name" colspan="3">
+                {{ secondPlayerName }}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="row" colspan="3">
+                <div class="score-plate">
+                    {{ statistic.score.p1.move + statistic.score.p1.place }}
+                    ({{ (statistic.score.p1.move + statistic.score.p1.place) /
+                    (statistic.score.p1.move + statistic.score.p1.place +
+                    statistic.score.p2.move + statistic.score.p2.place) * 100 | number: '1.0-2' }} %)
+                </div>
+            </td>
+            <td class="row" colspan="3">
+                <div class="score-plate">
+                    {{ statistic.score.p2.move + statistic.score.p2.place }}
+                    ({{ (statistic.score.p2.move + statistic.score.p2.place) /
+                    (statistic.score.p1.move + statistic.score.p1.place +
+                    statistic.score.p2.move + statistic.score.p2.place) * 100 | number: '1.0-2' }} %)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="border-top border-bottom">
+                Won in Gamestate
+            </td>
+            <td class="border-top center">
+                Move
+            </td>
+            <td class="border-top center">
+                {{ statistic.score.p1.move }}
+            </td>
+            <td class="border-top center">
+                {{ statistic.score.p1.move /
+                (statistic.score.p1.move + statistic.score.p1.place) * 100
+                | number: '1.0-2'}} %
+            </td>
+            <td class="border-top center">
+                Move
+            </td>
+            <td class="border-top center">
+                {{ statistic.score.p2.move }}
+            </td>
+            <td class="border-top center">
+                {{ statistic.score.p2.move /
+                (statistic.score.p2.move + statistic.score.p2.place) * 100
+                | number: '1.0-2'}} %
+            </td>
+        </tr>
+        <tr class="border-bottom">
+            <td class="border-bottom center">
+                Place
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.score.p1.place }}
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.score.p1.place /
+                (statistic.score.p1.move + statistic.score.p1.place) * 100
+                | number: '1.0-2'}} %
+            </td>
+            <td class="border-bottom center">
+                Place
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.score.p2.place }}
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.score.p2.place /
+                (statistic.score.p2.move + statistic.score.p2.place) * 100
+                | number: '1.0-2'}} %
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="border-bottom">
+                Score when started
+            </td>
+            <td class="center">
+                Won
+            </td>
+            <td class="center">
+                {{ statistic.started.p1.won }}
+            </td>
+            <td class="center">
+                {{ statistic.started.p1.won /
+                (statistic.started.p1.won + statistic.started.p1.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+            <td class="center">
+                Won
+            </td>
+            <td class="center">
+                {{ statistic.started.p2.won }}
+            </td>
+            <td class="center">
+                {{ statistic.started.p2.won /
+                (statistic.started.p2.won + statistic.started.p2.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+        </tr>
+        <tr>
+            <td class="border-bottom center">
+                Lost
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.started.p1.lost }}
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.started.p1.lost /
+                (statistic.started.p1.won + statistic.started.p1.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+            <td class="border-bottom center">
+                Lost
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.started.p2.lost }}
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.started.p2.lost /
+                (statistic.started.p2.won + statistic.started.p2.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="border-bottom">
+                Score when not started
+            </td>
+            <td class="center">
+                Won
+            </td>
+            <td class="center">
+                {{ statistic.notstarted.p1.won }}
+            </td>
+            <td class="center">
+                {{ statistic.notstarted.p1.won /
+                (statistic.notstarted.p1.won + statistic.notstarted.p1.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+            <td class="center">
+                Won
+            </td>
+            <td class="center">
+                {{ statistic.notstarted.p2.won }}
+            </td>
+            <td class="center">
+                {{ statistic.notstarted.p2.won /
+                (statistic.notstarted.p2.won + statistic.notstarted.p2.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+        </tr>
+        <tr>
+            <td class="border-bottom center">
+                Lost
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.notstarted.p1.lost }}
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.notstarted.p1.lost /
+                (statistic.notstarted.p1.won + statistic.notstarted.p1.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+            <td class="border-bottom center">
+                Lost
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.notstarted.p2.lost }}
+            </td>
+            <td class="border-bottom center">
+                {{ statistic.notstarted.p2.lost /
+                (statistic.notstarted.p2.won + statistic.notstarted.p2.lost) * 100
+                | number: '1.0-2'}} %
+            </td>
+        </tr>
+    </table>
+</div>

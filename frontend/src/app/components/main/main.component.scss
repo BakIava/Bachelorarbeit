@@ -49,6 +49,10 @@
                 .field {
                     margin: 0 10px;
                 }
+
+                .player-select {
+                    width: 250px;
+                }
             }
         }
 
@@ -68,6 +72,7 @@
         display: flex;
         justify-content: center;
         margin: 10px;
+        padding-bottom: 300px;
         .versus-button {
             padding: 15px;
             font-size: 20px;

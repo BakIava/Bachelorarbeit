@@ -1,0 +1,16 @@
+<div id="select-versus-container">
+    <mat-form-field appearance="outline">
+        <mat-label>Player Q Value</mat-label>
+        <mat-select [(ngModel)]="selectedQ">
+            <mat-option [value]="null"> --- </mat-option>
+            <mat-option *ngFor="let QValue of selectableQValues" [value]="QValue.value"
+                [disabled]="QValue.value=== null">
+                {{ QValue.view }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div matDialogActions>
+        <button mat-flat-button matDialogClose color="warn">Cancel</button>
+        <button mat-flat-button color="primary" [mat-dialog-close]="selectedQ" [disabled]="!selectedQ">Confirm selection</button>
+    </div>
+</div>

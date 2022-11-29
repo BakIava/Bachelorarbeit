@@ -29,6 +29,10 @@ import { VersusComponent } from './components/main/versus/versus.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { WinnerComponent } from './components/main/versus/winner/winner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { WinStatComponent } from './components/main/result/win-stat/win-stat.component';
+import { SelectVersusComponent } from './components/main/versus/select-versus/select-versus.component';
+import { SarsaTrainingPuppetConfigurationComponent } from './components/main/sarsa-training-puppet-configuration/sarsa-training-puppet-configuration.component';
+import { RetrainPuppetComponent } from './components/main/sarsa-training-puppet-configuration/retrain-puppet/retrain-puppet.component';
 
 
 @NgModule({
@@ -41,7 +45,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ToolTipComponent,
     ToolTipDirectiveComponent,
     VersusComponent,
-    WinnerComponent
+    WinnerComponent,
+    WinStatComponent,
+    SelectVersusComponent,
+    SarsaTrainingPuppetConfigurationComponent,
+    RetrainPuppetComponent
   ],
   imports: [
     BrowserModule,

@@ -11,8 +11,10 @@ export class Game {
     private state!: GameState;
 
     private turn!: BasePlayer;
-    private winner?: BasePlayer | undefined;
+    private turnCount!: number;
+    private winner?: { player: BasePlayer, state: GameState };
     private field!: FieldType[][];
+    private middlePlaceAllowed!: boolean;
 
     private callback: Function | null = null;
 
@@ -20,11 +22,12 @@ export class Game {
     get PlayerTurn(): BasePlayer { return this.turn; }
     get FirstPlayer(): BasePlayer { return this.p1; }
     get SecondPlayer(): BasePlayer { return this.p2; }
+    get GameTurnCount(): number { return this.turnCount; }
     get GameState(): GameState { return this.state; }
     get GameField(): FieldType[][] { return this.field; }
-    get GameWinner(): BasePlayer | undefined { return this.winner; }
+    get GameWinner(): { player: BasePlayer, state: GameState } | undefined { return this.winner; }
 
-    constructor(p1: BasePlayer, p2: BasePlayer) {
+    constructor(p1: BasePlayer, p2: BasePlayer, allowPlaceMiddle: boolean) {
         this.field = [
             [null, null, null],
             [null, null, null],
@@ -35,7 +38,9 @@ export class Game {
         this.p2 = p2;
         this.state = GameState.PLACE_PHASE;
         this.turn = this.p1;
+        this.turnCount = 0;
         this.winner = undefined;
+        this.middlePlaceAllowed = allowPlaceMiddle;
     }
 
     #checkIfWon(player: BasePlayer) {
@@ -49,8 +54,12 @@ export class Game {
     #endGame(p: BasePlayer) {
         if (p === this.p1) { this.p1.won(); }
         if (p === this.p2) { this.p2.won(); }
+        this.winner = {
+            player: p,
+            state: this.state === GameState.PLACE_PHASE ? GameState.PLACE_PHASE : GameState.MOVE_PHASE
+        };
+
         this.state = GameState.END;
-        this.winner = p;
     }
 
     #getPosOfStone(stone: IStone): Position | undefined {
@@ -111,8 +120,10 @@ export class Game {
             [null, null, null]
         ];
 
+        // this.turn = this.GameWinner?.player === this.p1 ? this.p1 : this.p2;
         this.state = GameState.PLACE_PHASE;
         this.winner = undefined;
+        this.turnCount = 0;
         this.p1.resetStones();
         this.p2.resetStones();
     }
@@ -121,10 +132,13 @@ export class Game {
         if (this.state !== GameState.PLACE_PHASE) return false;
         if (this.field[pos.row][pos.col] !== null) return false;
         if (stone.player !== this.turn) return false;
+        if (!this.middlePlaceAllowed && pos.row === 1 && pos.col === 1) return false;
 
         this.field[pos.row][pos.col] = stone;
 
         stone.player.placeStone();
+
+        this.turnCount++;
 
         if (this.callback) { this.callback(); this.callback = null; }
         if (callback) this.callback = callback;
@@ -151,6 +165,8 @@ export class Game {
         if (!pos) throw new Error("Could not find stone.");
 
         const { row, col } = pos;
+
+        this.turnCount++;
 
         this.#moveStone({ row, col }, stone);
 

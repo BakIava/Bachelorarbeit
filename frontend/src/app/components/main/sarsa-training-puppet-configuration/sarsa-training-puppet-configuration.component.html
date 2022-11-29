@@ -1,0 +1,21 @@
+<mat-divider></mat-divider>
+<div id="sarsa-training-puppet-configuration-container">
+    <span class="title">Algorithmus Parameter</span>
+    <form class="algorithm-form" [formGroup]="form">
+        <div class="row">
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Epsilon (ϵ)</mat-label>
+                <input matInput type="number" min="0" max="1" step="0.01" formControlName="Epsilon">
+            </mat-form-field>
+        </div>
+    </form>
+    <section>
+        <span style="color: orange;">Q-Value for training puppet does not update, but you can still configure an
+            episolen
+            for better
+            training results of the SARSA-Algorithm. You can retrain the training puppet via "Retrain"
+        </span>
+        <br>
+        <button mat-flat-button color="primary" (click)="retrain()">Retrain</button>
+    </section>
+</div>

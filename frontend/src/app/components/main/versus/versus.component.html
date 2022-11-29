@@ -13,7 +13,7 @@
             'player-1': field.player === '1',
             'player-2': field.player === '2'
         }" [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
-            <mat-menu #menu="matMenu" [class]="game.state === 2 || game.turn === '1' ? 'hide' : ''">
+            <mat-menu #menu="matMenu" [class]="game.state === 2 || game.turn === data.player ? 'hide' : ''">
                 <div *ngIf="game.state === 0; else move">
                     <button mat-menu-item (click)="placeStone(field.id)">
                         <mat-icon>arrow_downward</mat-icon>

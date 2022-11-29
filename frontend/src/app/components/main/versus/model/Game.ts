@@ -10,10 +10,11 @@ export class Game {
     field: IVersusField[];
     algoritm: Algorithm;
     stones: { p1: number, p2: number };
+    allowPlaceMiddle: boolean;
 
     get GameIsStillRunning(): boolean { return this.state === GameState.PLACE_PHASE || this.state === GameState.MOVE_PHASE }
 
-    constructor(q: any, startPlayer: '1' | '2') {
+    constructor(q: any, startPlayer: '1' | '2', allowPlaceMiddle: boolean) {
         this.state = GameState.PLACE_PHASE;
         this.turn = startPlayer;
 
@@ -35,7 +36,9 @@ export class Game {
         this.stones = {
             p1: 3,
             p2: 3
-        }
+        };
+
+        this.allowPlaceMiddle = allowPlaceMiddle;
     }
 
     private endGame(player: '1' | '2') {
@@ -67,6 +70,7 @@ export class Game {
         if (this.state !== GameState.PLACE_PHASE) return false;
         if (this.field[pos].player !== '0') return false;
         if (player !== this.turn) return false;
+        if (!this.allowPlaceMiddle && pos === 4) return false;
 
         this.field[pos].player = player;
 

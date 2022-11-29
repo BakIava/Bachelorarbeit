@@ -3,7 +3,7 @@
         <mat-card-title class="card-title">
             <div *ngIf="editMode; else viewMode">
                 <div class="title-text">
-                    Please select a state, by clicking on a field and placing a stone. 
+                    Please select a state, by clicking on a field and placing a stone.
                     Confirm with the button.
                 </div>
                 <table class="stone-table">
@@ -17,7 +17,8 @@
                     </tr>
                 </table>
                 <div class="button-container">
-                    <button mat-flat-button color="primary" class="confirm-button" (click)="applyInformations()">
+                    <button mat-flat-button color="primary" class="confirm-button" (click)="applyInformations()"
+                        [disabled]="!selected">
                         Display values for this state
                     </button>
                 </div>
@@ -32,6 +33,18 @@
                     </button>
                 </div>
             </ng-template>
+            <div class="q-selection-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>Player Q Value</mat-label>
+                    <mat-select [(ngModel)]="selected" [disabled]="!editMode">
+                        <mat-option [value]="null"> --- </mat-option>
+                        <mat-option *ngFor="let QValue of selectableQValues" [value]="QValue.value"
+                            [disabled]="QValue.value.q === null">
+                            {{ QValue.view }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </mat-card-title>
         <mat-card-content class="card-content">
             <div class="circle" [ngClass]="{edit: editMode}">
@@ -43,18 +56,18 @@
                     'player-1': field.player === '1',
                     'player-2': field.player === '2'
                 }" [ngStyle]="{'box-shadow': '0px 0px 10px 5px ' + (field.heat ?? 'none')}" [matMenuTriggerFor]="menu"
-                    [tooltip]="{ state: getState(), field: field.id, q, move, editMode}"
+                    [tooltip]="{ state: getState(), field: field.id, q: selected?.q, move: selected?.move, editMode, player: selected?.q === q.p1 ? '1' : '2'}"
                     (click)="editMode ? '' : menuTrigger.closeMenu()" #menuTrigger="matMenuTrigger">
                     <mat-menu [class]="editMode ? '' : 'hide'" #menu="matMenu">
                         <button mat-menu-item (click)="placeStone(field.id, '1')"
                             [disabled]="stones.p1 <= 0 || field.player === '1'">
                             <mat-icon style="color: red">face</mat-icon>
-                            <span>Player 1</span>
+                            <span>{{ firstPlayerName }}</span>
                         </button>
                         <button mat-menu-item (click)="placeStone(field.id, '2')"
                             [disabled]="stones.p2 <= 0 || field.player === '2'">
                             <mat-icon style="color: blue">face</mat-icon>
-                            <span>Player 2</span>
+                            <span>{{ secondPlayerName }}</span>
                         </button>
                         <button mat-menu-item (click)="placeStone(field.id, '0')" *ngIf="field.player !== '0'">
                             <mat-icon>delete</mat-icon>

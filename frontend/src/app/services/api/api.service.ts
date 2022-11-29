@@ -16,6 +16,10 @@ export class ApiService {
     return firstValueFrom(this.http.post<any>(`${this.endpoint}/start`, { config }));
   }
 
+  async retrain(config: any) {
+    return firstValueFrom(this.http.post<any>(`${this.endpoint}/retrain`, { config }))
+  }
+
   async getExample() {
     return firstValueFrom(this.http.get<any>('assets/example-q.json'));
   }

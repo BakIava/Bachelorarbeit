@@ -17,7 +17,7 @@
                     </ng-template>
                     <div class="base-config">
                         <div class="field">
-                            <mat-form-field appearance="outline">
+                            <mat-form-field appearance="outline" class="player-select">
                                 <mat-label>Choose player</mat-label>
                                 <mat-select formControlName="Player">
                                     <mat-option *ngFor="let player of playerTypes" [value]="player.id">
@@ -36,6 +36,11 @@
                     <div *ngIf="firstPlayer['Player'].value === 0">
                         <app-sarsa-configuration [form]="firstPlayerConfigurationGroup"></app-sarsa-configuration>
                     </div>
+                    <div
+                        *ngIf="firstPlayer['Player'].value === 1 || firstPlayer['Player'].value === 2 || firstPlayer['Player'].value === 3">
+                        <app-sarsa-training-puppet-configuration [form]="secondPlayerConfigurationGroup">
+                        </app-sarsa-training-puppet-configuration>
+                    </div>
                 </form>
             </mat-step>
             <mat-step [stepControl]="secondPlayerGroup">
@@ -44,7 +49,7 @@
                 <form [formGroup]="secondPlayerGroup">
                     <div class="base-config">
                         <div class="field">
-                            <mat-form-field appearance="outline">
+                            <mat-form-field appearance="outline" class="player-select">
                                 <mat-label>Choose player</mat-label>
                                 <mat-select formControlName="Player">
                                     <mat-option *ngFor="let player of playerTypes" [value]="player.id">
@@ -63,6 +68,11 @@
                     <div *ngIf="secondPlayer['Player'].value === 0">
                         <app-sarsa-configuration [form]="secondPlayerConfigurationGroup"></app-sarsa-configuration>
                     </div>
+                    <div
+                        *ngIf="secondPlayer['Player'].value === 1 || secondPlayer['Player'].value === 2 || secondPlayer['Player'].value === 3">
+                        <app-sarsa-training-puppet-configuration [form]="secondPlayerConfigurationGroup">
+                        </app-sarsa-training-puppet-configuration>
+                    </div>
                 </form>
             </mat-step>
             <mat-step [stepControl]="additionalOptionGroup">
@@ -72,6 +82,15 @@
                         <mat-label>Episodes</mat-label>
                         <input matInput type="number" min="1" formControlName="Episodes">
                     </mat-form-field>
+                    <section>
+                        <mat-checkbox color="primary" formControlName="AllowPlaceMiddle">
+                            Allow placing stone in middle
+                        </mat-checkbox>
+                    </section>
+                    <span *ngIf="additionalOption['Episodes'].value > 100000" style="color: red; font-weight: bold;">
+                        <mat-icon style="color: red;">warning</mat-icon>
+                        Huge amount of episodes, can cause an fatal errors and performance issues
+                    </span>
                 </form>
             </mat-step>
         </mat-stepper>
@@ -82,11 +101,16 @@
         </div>
     </div>
     <div class="result">
-        <app-result *ngIf="started" [firstPlayer]="firstPlayer" [secondPlayer]="secondPlayer" [score]="score">
+        <app-result *ngIf="started" [firstPlayerName]="firstPlayer['Name'].value"
+            [secondPlayerName]="secondPlayer['Name'].value" [statistic]="statistic">
         </app-result>
     </div>
-    <app-mola-rotunda *ngIf="started" [q]="q" [move]="score.history.move"></app-mola-rotunda>
+    <app-mola-rotunda *ngIf="started" [q]="q" [move]="statistic.move" [firstPlayerName]="firstPlayer['Name'].value"
+        [secondPlayerName]="secondPlayer['Name'].value">
+    </app-mola-rotunda>
     <div class="versus">
-        <button mat-flat-button color="primary" class="versus-button" *ngIf="started" (click)="versus()">Play against Algorithm</button>
+        <button mat-flat-button color="primary" class="versus-button" *ngIf="started" (click)="versus()">Play against
+            Algorithm
+        </button>
     </div>
 </div>
