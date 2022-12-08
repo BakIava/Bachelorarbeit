@@ -25,6 +25,8 @@ export class AlgorithmPlayer extends BasePlayer {
     ResetMoves() { this.move = []; }
     UpdateEpsilon(eps: number) { this.eps = eps; }
 
+    setId(id: '1' | '2') { this.id = id; }
+
     get Moves() { return this.move; }
 
     get MyId() { return this.id; }
@@ -237,8 +239,8 @@ export class AlgorithmPlayer extends BasePlayer {
                 if (!this.q.has(state)) this.q.set(state, new Map());
 
                 for (const action of actions) {
-                    if (this.checkIfStateIsGoal(state, this.MyId)) this.q.get(state)?.set(action, this.randomQInit ? 0 : 1);
-                    else if (this.checkIfBadPlace(state, action)) this.q.get(state)?.set(action, -1);
+                    if (this.checkIfStateIsGoal(state, this.MyId)) this.q.get(state)?.set(action, this.randomQInit ? 0  : this.goalReward );
+                    // else if (this.checkIfBadPlace(state, action)) this.q.get(state)?.set(action, -1);
                     else this.q.get(state)?.set(action, this.randomQInit ? Math.random() : 0);
                 }
             }
@@ -465,7 +467,7 @@ export class AlgorithmPlayer extends BasePlayer {
 
             for (const action of actions) {
                 if (this.checkIfStateIsGoal(state, this.MyId)) this.q.get(state)?.set(action, this.randomQInit ? 0 : this.goalReward);
-                else if (this.checkIfBadMove(state, action)) this.q.get(state)?.set(action, -1);
+                // else if (this.checkIfBadMove(state, action)) this.q.get(state)?.set(action, -1);
                 else this.q.get(state)?.set(action, this.randomQInit ? Math.random() : 0);
             }
         }
@@ -496,7 +498,7 @@ export class AlgorithmPlayer extends BasePlayer {
     private chooseAction(state: string): any {
         let action: number | null = null;
         const randomIndex = Math.floor(Math.random() * this.q.get(state)!.size);
-        if (Math.random() <= this.eps) { // Select random action, if not trainingPuppetMode
+        if (Math.random() <= this.eps) {
             action = Array.from(this.q.get(state)!.keys())[randomIndex];
         }
         else { // Exploit action

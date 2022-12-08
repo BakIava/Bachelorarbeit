@@ -51,7 +51,7 @@ export class ResultComponent implements OnInit {
             borderColor: 'red',
             borderWidth: 1,
             pointRadius: 0,
-            fill: true
+            // fill: true
           },
           {
             label: this.secondPlayerName,
@@ -60,7 +60,7 @@ export class ResultComponent implements OnInit {
             borderColor: 'blue',
             borderWidth: 1,
             pointRadius: 0,
-            fill: true
+            // fill: true
           }
         ]
       },
@@ -68,18 +68,42 @@ export class ResultComponent implements OnInit {
         spanGaps: true,
         animation: false,
         plugins: {
+          legend: {
+            labels: {
+              font: {
+                size: 22
+              }
+            }
+          },
           filler: {
             propagate: false,
             drawTime: 'beforeDatasetsDraw'
           },
           title: {
             display: true,
-            text: 'Winrate progression'
-          }
+            text: 'Winrate progression',
+            font: {
+              size: 26
+            }
+          },
         },
         scales: {
           x: {
-            type: 'linear'
+            type: 'linear',
+            ticks: {
+              font: {
+                size: 22
+              },
+              count: 21
+            }
+          },
+          y: {
+            ticks: {
+              font: {
+                size: 22
+              },
+              count: 21
+            }
           }
         },
         backgroundColor: '#fff',
@@ -103,7 +127,7 @@ export class ResultComponent implements OnInit {
     turns = new Map([...turns].sort((a, b) => { return a[0] - b[0] }));
 
     this.WinrateChart = new Chart("TurnsChart", {
-      type: 'line', //this denotes tha type of chart
+      type: 'bar', //this denotes tha type of chart
       data: {// values on X-Axis
         labels: Array.from(turns.keys()),
         datasets: [
@@ -113,26 +137,44 @@ export class ResultComponent implements OnInit {
             backgroundColor: 'black',
             borderColor: 'black',
             borderWidth: 1,
-            pointRadius: 0,
-            fill: true,
-            tension: 0.4
+            // pointRadius: 0,
+            // fill: true,
+            // tension: 0.4
           }
         ]
       },
       options: {
-        spanGaps: true,
+        // spanGaps: true,
         animation: false,
         plugins: {
+          legend: {
+            labels: {
+              font: {
+                size: 22
+              }
+            }
+          },
           title: {
             display: true,
-            text: 'How many turns episodes took'
+            text: 'How many turns episodes took',
+            font: {
+              size: 26
+            }
           },
         },
         scales: {
           x: {
             title: {
               text: 'Turns',
-              display: true
+              display: true,
+              font: {
+                size: 22
+              }
+            },
+            ticks: {
+              font: {
+                size: 18
+              }
             },
             // type: 'linear',
             min: Array.from(turns.keys())[0],
@@ -141,7 +183,15 @@ export class ResultComponent implements OnInit {
           y: {
             title: {
               text: 'Count',
-              display: true
+              display: true,
+              font: {
+                size: 22
+              }
+            },
+            ticks: {
+              font: {
+                size: 22
+              }
             }
           }
         },

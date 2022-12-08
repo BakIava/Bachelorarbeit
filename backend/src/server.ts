@@ -102,7 +102,7 @@ function retrainSarsaTrainingPuppet(level: 1 | 2 | 3, allowPlaceMiddle: boolean,
     algorithm.ResetMoves();
 }
 
-function getSarsaTrainingPuppet(level: 1 | 2 | 3, allowPlaceMiddle: boolean, epsilon: number): AlgorithmPlayer {
+function getSarsaTrainingPuppet(id: '1' | '2', level: 1 | 2 | 3, allowPlaceMiddle: boolean, epsilon: number): AlgorithmPlayer {
     let puppet: AlgorithmPlayer;
 
     switch (level) {
@@ -112,13 +112,17 @@ function getSarsaTrainingPuppet(level: 1 | 2 | 3, allowPlaceMiddle: boolean, eps
                 sarsaEasyWithMiddle.UpdateEpsilon(epsilon);
                 sarsaEasyWithMiddle.ResetMoves();
                 sarsaEasyWithMiddle.resetScore();
+                sarsaEasyWithMiddle.setId(id);
                 puppet = sarsaEasyWithMiddle;
+                break;
             } else {
                 console.log((new Date()).toLocaleTimeString() + ' SARSA Training Puppet - Easy');
                 sarsaEasy.UpdateEpsilon(epsilon);
                 sarsaEasy.ResetMoves();
                 sarsaEasy.resetScore();
+                sarsaEasy.setId(id);
                 puppet = sarsaEasy;
+                break;
             }
         case 2:
             if (allowPlaceMiddle) {
@@ -126,13 +130,17 @@ function getSarsaTrainingPuppet(level: 1 | 2 | 3, allowPlaceMiddle: boolean, eps
                 sarsaMediumWithMiddle.UpdateEpsilon(epsilon);
                 sarsaMediumWithMiddle.ResetMoves();
                 sarsaMediumWithMiddle.resetScore();
+                sarsaMediumWithMiddle.setId(id);
                 puppet = sarsaEasyWithMiddle;
+                break;
             } else {
                 console.log((new Date()).toLocaleTimeString() + ' SARSA Training Puppet - Medium');
                 sarsaMedium.UpdateEpsilon(epsilon);
                 sarsaMedium.ResetMoves();
                 sarsaMedium.resetScore();
+                sarsaMedium.setId(id);
                 puppet = sarsaMedium;
+                break;
             }
         case 3:
             if (allowPlaceMiddle) {
@@ -140,13 +148,17 @@ function getSarsaTrainingPuppet(level: 1 | 2 | 3, allowPlaceMiddle: boolean, eps
                 sarsaHardWithMiddle.UpdateEpsilon(epsilon);
                 sarsaHardWithMiddle.ResetMoves();
                 sarsaHardWithMiddle.resetScore();
+                sarsaHardWithMiddle.setId(id);
                 puppet = sarsaHardWithMiddle;
+                break;
             } else {
                 console.log((new Date()).toLocaleTimeString() + ' SARSA Training Puppet - Hard');
                 sarsaHard.UpdateEpsilon(epsilon);
                 sarsaHard.ResetMoves();
                 sarsaHard.resetScore();
+                sarsaHard.setId(id);
                 puppet = sarsaHard;
+                break;
             }
     }
 
@@ -188,7 +200,7 @@ app.post('/start', (req: Request, res: Response) => {
         console.log((new Date()).toLocaleTimeString() + ' SARSA Algorithm');
         p1 = new AlgorithmPlayer('1', config.p1.name, config.p1.configuration, allowPlaceMiddle);
     } else if (config.p1.player === 1 || config.p1.player === 2 || config.p1.player === 3) {
-        p1 = getSarsaTrainingPuppet(config.p1.player, allowPlaceMiddle, config.p1.configuration.Epsilon);
+        p1 = getSarsaTrainingPuppet('1', config.p1.player, allowPlaceMiddle, config.p1.configuration.Epsilon);
     } else {
         console.log((new Date()).toLocaleTimeString() + ' RandomPlayer');
         p1 = new RandomPlayer(config.p1.name);
@@ -198,7 +210,7 @@ app.post('/start', (req: Request, res: Response) => {
         console.log((new Date()).toLocaleTimeString() + ' SARSA Algorithm');
         p2 = new AlgorithmPlayer('2', config.p2.name, config.p2.configuration, allowPlaceMiddle);
     } else if (config.p2.player === 1 || config.p2.player === 2 || config.p2.player === 3) {
-        p2 = getSarsaTrainingPuppet(config.p2.player, allowPlaceMiddle, config.p2.configuration.Epsilon);
+        p2 = getSarsaTrainingPuppet('2', config.p2.player, allowPlaceMiddle, config.p2.configuration.Epsilon);
     } else {
         console.log((new Date()).toLocaleTimeString() + ' SecondPlayer: RandomPlayer');
         p2 = new RandomPlayer(config.p2.name);
