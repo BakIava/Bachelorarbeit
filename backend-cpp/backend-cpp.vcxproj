@@ -119,7 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -157,10 +157,36 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="main.h" />
+    <ClInclude Include="Algorithm_Options.h" />
+    <ClInclude Include="Algorithm_Player.h" />
+    <ClInclude Include="Connection.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="IPlayer.h" />
+    <ClInclude Include="MoveAction.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="Shell.h" />
+    <ClInclude Include="Stone.h" />
+    <ClInclude Include="StoneDistribution.h" />
+    <ClInclude Include="Stringified_Field.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Action.h" />
+    <ClCompile Include="Algorithm_Options.cpp" />
+    <ClCompile Include="Algorithm_Player.cpp" />
+    <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="IPlayer.cpp" />
+    <ClCompile Include="MoveAction.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Shell.cpp" />
+    <ClCompile Include="Stone.cpp" />
+    <ClCompile Include="StoneDistribution.cpp" />
+    <ClCompile Include="Stringified_Field.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe Aktive Datei kompilieren",
+			"command": "C:/mingw64/bin/g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-Wall",
+				"-IC:\\vcpkg\\packages\\restbed_x64-windows\\include",
+                "-IC:\\vcpkg\\packages\\nlohmann-json_x64-windows\\include",
+				"-std=c++17",
+				"${fileDirname}\\*.cpp",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"-LC:\\vcpkg\\packages\\restbed_x64-windows\\lib"
+			],
+			"options": {
+				"cwd": "C:/mingw64/bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "Compiler: C:/mingw64/bin/g++.exe"
+		}
+	]
+}
