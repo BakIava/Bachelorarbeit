@@ -18,6 +18,7 @@ class Algorithm_Player :
 	public IPlayer
 {
 private:
+	// TODO: Find efficient way to store place action-value & move action-value
 	std::map<std::string, std::map<std::any, int>> q;
 	double alpha;
 	double epsilon;
