@@ -25,8 +25,8 @@ void start_train(const shared_ptr<Session> session)
 		fprintf(stdout, "%.*s\n", (int)body.size(), body.data());
 		string bodyString = std::string((char*)body.data(), body.size());
 		json data = json::parse(bodyString);
-		string test = data.
-		session->close(OK, "Hello, World!", { { "Content-Length", "13" }, { "Connection", "close" } });
+		/*string test = data.
+		session->close(OK, "Hello, World!", { { "Content-Length", "13" }, { "Connection", "close" } });*/
 	});
 }
 
